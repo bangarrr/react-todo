@@ -16,7 +16,7 @@ export default class TodoList extends React.Component {
         {this.props.todoList.map((todo, index) => {
           return <TodoItem key={index}
                            value={todo.title}
-                           isFirst={index === 0}
+                           active={index == this.props.currentIndex}
                            deleteClick={this.deleteItem}
                            index={index}
                            onClick={() => this.props.onClick(index)}
