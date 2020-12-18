@@ -50,6 +50,15 @@ const DialogTitleInput = styled.input.attrs({type: "text"})`
   outline: none;
 `;
 
+const DialogContentInput = styled.textarea`
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: block;
+  margin: 0 auto 40px;
+  padding: 8px;
+  outline: none;
+`;
+
 const DialogBtn = styled.button`
   background-color: #009688;
   border: 0;
@@ -93,7 +102,8 @@ export default class TodoDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: ''
+      title: '',
+      content: ''
     };
   }
 
@@ -103,10 +113,17 @@ export default class TodoDialog extends React.Component {
     });
   };
 
+  handleContentChange = (e) => {
+    this.setState({
+      content: e.target.value
+    });
+  };
+
   addTodo = () => {
     const todoTitle = this.state.title;
+    const content = this.state.content;
     if (todoTitle === '') return;
-    this.props.addTodo(todoTitle);
+    this.props.addTodo(todoTitle, content);
   };
 
   render() {
@@ -114,6 +131,7 @@ export default class TodoDialog extends React.Component {
       <Dialog open={this.props.dialogOpen}>
         <DialogTitle>Add Todo</DialogTitle>
         <DialogTitleInput value={this.state.title} onChange={this.handleChange}/>
+        <DialogContentInput value={this.state.content} onChange={this.handleContentChange}/>
         <DialogBtn onClick={this.addTodo}>Add</DialogBtn>
         <DialogCancelBtn onClick={this.props.deleteDialog}/>
       </Dialog>
