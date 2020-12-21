@@ -1,5 +1,5 @@
 import React from 'react';
-import TodoItem from "./TodoItem";
+import {TodoConsumer} from "./TodoContext";
 import styled from "styled-components";
 
 const ListWrapper = styled.div`
@@ -9,20 +9,35 @@ const ListWrapper = styled.div`
   border-right: 1px solid ${props => props.theme.color.lightGray};
 `;
 
+const ListItem = styled.li`
+  align-items: center;
+  border-bottom: 1px solid ${props => props.theme.color.lightGray};
+  display: flex;
+  list-style: none;
+  padding: 12px 24px;
+  cursor: pointer;
+  border-left: ${props => props.active ? '5px solid ' + props.theme.color.main : 'none'};
+`;
+
 export default class TodoList extends React.Component {
   render() {
     return (
-      <ListWrapper>
-        {this.props.todoList.map((todo, index) => {
-          return <TodoItem key={index}
-                           value={todo.title}
-                           active={index == this.props.currentIndex}
-                           deleteClick={this.deleteItem}
-                           index={index}
-                           onClick={() => this.props.onClick(index)}
-          />
-        })}
-      </ListWrapper>
+      <TodoConsumer>
+        {val => (
+          <ListWrapper>
+            {val.todos.map((todo, index) => {
+              return (
+                <ListItem key={index}
+                          active={index === val.currentIndex}
+                          onClick={() => val.itemClicked(index)}
+                >
+                  {todo.title}
+                </ListItem>
+              )
+            })}
+          </ListWrapper>
+        )}
+      </TodoConsumer>
     );
   }
 }

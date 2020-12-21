@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import {TodoConsumer} from "./TodoContext";
 
 const Btn = styled.button`
   background-color: #009688;
@@ -26,17 +27,21 @@ const Btn = styled.button`
 export default class AddButton extends React.Component {
   render() {
     return (
-      <Btn onClick={() => this.props.onClick()}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill={"#fff"}
-        >
-          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-        </svg>
-      </Btn>
+      <TodoConsumer>
+        {val => (
+          <Btn onClick={() => val.addTodo()}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill={"#fff"}
+            >
+              <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+            </svg>
+          </Btn>
+        )}
+      </TodoConsumer>
     )
   }
 }

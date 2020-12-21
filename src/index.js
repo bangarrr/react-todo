@@ -31,7 +31,7 @@ const theme = {
 };
 
 const AppWrapper = styled.div`
-  height: calc(100% - 60px);
+  height: calc(100% - 130px);
   position: relative;
   width: 100%;
   padding-top: 60px;
@@ -44,7 +44,7 @@ const App = (props) => (
     <GlobalStyle/>
     <ThemeProvider theme={theme}>
       <Header/>
-      <AppWrapper >
+      <AppWrapper>
         <Todo/>
       </AppWrapper>
     </ThemeProvider>

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
+import {TodoConsumer} from "./TodoContext";
 
 const StyledDiv = styled.div`
   height: calc(100% - 5px);
@@ -33,13 +34,16 @@ const Content = styled.textarea`
 
 export default class TodoContents extends React.Component {
   render() {
-    const todo = this.props.todo;
-
     return (
-      <StyledDiv>
-        <TitleInput value={todo ? todo.title : ''} onChange={(e) => this.props.changeTitle(e.target.value)}/>
-        <Content value={todo ? todo.contents : ''} onChange={(e) => this.props.changeContent(e.target.value)}></Content>
-      </StyledDiv>
+      <TodoConsumer>
+        {val => (
+          <StyledDiv>
+            <TitleInput value={val.currentTodo ? val.currentTodo.title : ''} onChange={(e) => val.changeTitle(e.target.value)}/>
+            <Content value={val.currentTodo ? val.currentTodo.contents : ''}
+                     onChange={(e) => val.changeContent(e.target.value)}></Content>
+          </StyledDiv>
+        )}
+      </TodoConsumer>
     );
   }
 }
