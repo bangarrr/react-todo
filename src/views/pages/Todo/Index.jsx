@@ -1,8 +1,8 @@
 import React from 'react';
-import {TodoProvider} from '../components/TodoContext';
-import TodoList from '../components/TodoList';
-import TodoContents from "../components/TodoContents";
-import AddButton from '../components/AddButton';
+import {TodoProvider} from 'views/pages/Todo/Context';
+import TodoList from 'views/components/TodoList';
+import TodoContents from "views/components/TodoContents";
+import AddButton from 'views/components/AddButton';
 
 export default class Todo extends React.Component {
   render() {

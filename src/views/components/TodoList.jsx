@@ -1,22 +1,19 @@
 import React from 'react';
-import {TodoConsumer} from "./TodoContext";
+import { TodoConsumer } from "views/pages/Todo/Context";
 import styled from "styled-components";
+import { Drawer, List, ListItem, ListItemText } from "@material-ui/core";
 
-const ListWrapper = styled.div`
-  position: fixed;
-  height: 100%;
-  width: 250px;
-  border-right: 1px solid ${props => props.theme.color.lightGray};
-`;
-
-const ListItem = styled.li`
-  align-items: center;
-  border-bottom: 1px solid ${props => props.theme.color.lightGray};
-  display: flex;
-  list-style: none;
-  padding: 12px 24px;
+// 独自propsのwarning回避
+//https://tech-1natsu.hatenablog.com/entry/2019/07/06/115606
+const StyledListItem = styled(({active, ...props}) => (
+  <ListItem {...props}>
+    {props.children}
+  </ListItem>
+))`
+  border-bottom: 1px solid ${props => props.theme.palette.border};
   cursor: pointer;
-  border-left: ${props => props.active ? '5px solid ' + props.theme.color.main : 'none'};
+  width: 200px;
+  border-left: ${props => props.active ? '5px solid ' + props.theme.palette.primary.main : 'none'};
 `;
 
 export default class TodoList extends React.Component {
@@ -24,20 +21,24 @@ export default class TodoList extends React.Component {
     return (
       <TodoConsumer>
         {val => (
-          <ListWrapper>
-            {val.todos.map((todo, index) => {
-              return (
-                <ListItem key={index}
-                          active={index === val.currentIndex}
-                          onClick={() => val.itemClicked(index)}
-                >
-                  {todo.title}
-                </ListItem>
-              )
-            })}
-          </ListWrapper>
+          <Drawer variant="permanent">
+            <List disablePadding>
+              {val.todos.map((todo, index) => {
+                return (
+                  <StyledListItem
+                    key={index}
+                    onClick={() => val.itemClicked(index)}
+                    active={index === val.currentIndex}
+                  >
+                    <ListItemText primary={todo.title}/>
+                  </StyledListItem>
+                )
+              })}
+            </List>
+          </Drawer>
         )}
       </TodoConsumer>
     );
   }
 }
+

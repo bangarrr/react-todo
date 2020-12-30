@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import styled, {createGlobalStyle, ThemeProvider} from 'styled-components';
-import reportWebVitals from './reportWebVitals';
-import Header from './views/components/Header';
-import Todo from './views/pages/Todo';
+import { CssBaseline } from "@material-ui/core";
+import {StylesProvider, ThemeProvider as MaterialThemeProvider} from "@material-ui/styles";
+import {createGlobalStyle, ThemeProvider as StyledThemeProvider} from 'styled-components';
+import theme from './Theme';
+import Header from 'views/components/layout/Header';
+import Todo from 'views/pages/Todo/Index';
 
 const GlobalStyle = createGlobalStyle`
   html,body {
@@ -11,48 +13,32 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
     margin: 0;
     padding: 0;
-    color: #5c5c5c;
+    background-color: #fff;
   }
 
-  main {
-    display: block;
-  }
-  
   #root {
     height: 100%;
   }
-`;
-
-const theme = {
-  color: {
-    main: '#009688',
-    lightGray: '#dedede'
+  
+  main {
+    padding-top: 64px;
   }
-};
-
-const AppWrapper = styled.div`
-  height: calc(100% - 130px);
-  position: relative;
-  width: 100%;
-  padding-top: 60px;
 `;
-
-
 
 const App = (props) => (
   <React.StrictMode>
-    <GlobalStyle/>
-    <ThemeProvider theme={theme}>
-      <Header/>
-      <AppWrapper>
-        <Todo/>
-      </AppWrapper>
-    </ThemeProvider>
+    <StylesProvider injectFirst>
+      <CssBaseline/>
+      <MaterialThemeProvider theme={theme}>
+        <StyledThemeProvider theme={theme}>
+          <GlobalStyle/>
+          <Header/>
+          <main>
+            <Todo/>
+          </main>
+        </StyledThemeProvider>
+      </MaterialThemeProvider>
+    </StylesProvider>
   </React.StrictMode>
 );
 ReactDOM.render(<App/>, document.getElementById('root'));
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
